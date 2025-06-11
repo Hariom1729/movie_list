@@ -1,4 +1,4 @@
-const API = 'https://movie-list-a0tx.onrender.com';
+const API = 'https://movie-list-a0tx.onrender.com/movies';
 
 async function fetchMovies() {
     const res = await fetch(API);
