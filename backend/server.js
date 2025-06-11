@@ -31,9 +31,15 @@ app.get('/movies', async (req, res) => {
 });
 
 app.post('/movies', async (req, res) => {
-  const movie = new Movie(req.body);
-  await movie.save();
-  res.status(201).json({ message: 'Movie added!' });
+  try {
+    console.log("Incoming data:", req.body);
+    const movie = new Movie(req.body);
+    await movie.save();
+    res.status(201).json({ message: 'Movie added!' });
+  } catch (error) {
+    console.error("POST /movies failed:", error.message);
+    res.status(500).json({ error: 'Failed to add movie.' });
+  }
 });
 
 app.delete('/movies/:title', async (req, res) => {
