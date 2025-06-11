@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000/movies';
+const API = 'https://movie-list-a0tx.onrender.com';
 
 async function fetchMovies() {
     const res = await fetch(API);
