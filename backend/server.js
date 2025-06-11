@@ -20,27 +20,29 @@ const movieSchema = new mongoose.Schema({
   title: String,
   genre: String,
   rating: String,
+  userId:String,
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
 
 // Routes
-app.get('/movies', async (req, res) => {
-  const movies = await Movie.find();
+app.get('/movies/:userId', async (req, res) => {
+  const movies = await Movie.find({ userId: req.params.userId });
   res.json(movies);
 });
 
 app.post('/movies', async (req, res) => {
   try {
-    console.log("Incoming data:", req.body);
-    const movie = new Movie(req.body);
-    await movie.save();
-    res.status(201).json({ message: 'Movie added!' });
+    console.log("Incoming data:", req.body); // Log incoming data
+    const movie = new Movie(req.body);       // Create a new Movie document
+    await movie.save();                      // Save it to MongoDB
+    res.status(201).json({ message: 'Movie added!' }); // Send success response
   } catch (error) {
-    console.error("POST /movies failed:", error.message);
-    res.status(500).json({ error: 'Failed to add movie.' });
+    console.error("POST /movies failed:", error.message); // Log error
+    res.status(500).json({ error: 'Failed to add movie.' }); // Send error response
   }
 });
+
 
 app.delete('/movies/:title', async (req, res) => {
   await Movie.deleteOne({ title: req.params.title });
